@@ -16,7 +16,7 @@ st.set_page_config(
 )
 sns.set_theme(style="whitegrid")
 
-DATA_PATH = Path(__file__).parent / "main_data.csv"
+DATA_PATH = Path(__file__).parent / "main_data.csv.gz"
 POLUTAN = ["PM2.5", "PM10", "SO2", "NO2", "CO", "O3"]
 METEO = ["TEMP", "DEWP", "WSPM"]
 BULAN_ID = {
@@ -36,7 +36,11 @@ def nama_bulan(ts):
 # ------------------------------------------------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv(DATA_PATH, parse_dates=["datetime"])
+    return pd.read_csv(
+        DATA_PATH,
+        compression="gzip",
+        parse_dates=["datetime"]
+    )
 
 
 df = load_data()
